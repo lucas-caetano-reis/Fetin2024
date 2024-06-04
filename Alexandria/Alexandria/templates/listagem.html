@@ -1,0 +1,62 @@
+<!-- template para a listagem de todos os livros cadastrados no banco de dados-->
+{% extends 'main_com_navbar.html' %}
+
+{% block content  %}
+
+<style>
+  .lista-container{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+  }
+</style>
+
+<div class="lista-container">
+
+  <div>
+
+    <a href="/adicionar-livro/">Adicionar um novo livro à lista</a>
+
+    <div class="lista">
+
+      {% for livro in livros %}  <!-- tag de for ; percorre todos os livros já cadastrados-->
+
+      <div class="livros-dados-opcoes">
+
+        <h3><a href='/livro/{{livro.livro_id}}'>ID: {{ livro.livro_id }} -- Nome: {{livro.livro_nome}} -- Autor: {{livro.livro_autor}}</a><br> <!-- mostra a id e nome dos livros já cadastrados --></h3>
+        <a href="/atualizar-livro/{{livro.livro_id}}">Editar</a>
+        <a href="/remover-livro/{{livro.livro_id}}">Remover</a>
+        <hr>
+
+      </div>
+  
+      {% endfor %} <!-- fecha o for -->
+
+    </div>
+
+    <h2><a href='/'>Sair da Alexandria.</a></h2>
+
+  </div>
+
+  <div>
+
+    <h3>Filtrar livros</h3>
+    <hr>
+
+    <h4>Autores</h4>
+    <hr>
+
+    <div>
+      <a href='{% url "Listagem" %}'><h5>Todos</h5></a>
+    </div>
+
+    {% for autor in autores %}
+    <div>
+      <a href='{% url "Listagem" %}?q={{autor.autor_nome}}'><h5>{{autor.autor_nome}}</h5></a>
+    </div>
+    {% endfor %}
+
+  </div>
+
+</div>
+
+{% endblock content %}

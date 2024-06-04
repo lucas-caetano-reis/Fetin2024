@@ -1,0 +1,20 @@
+<!-- template para mostrar as informações de um livro cadastrado no banco de dados-->
+{% extends 'main.html' %}
+
+{% block content  %}
+
+<h1>Informações:</h1>
+<div>
+
+  <div>
+    <h1>{{ livro.livro_nome }}</h1>
+    <p><strong>ID:</strong> {{ livro.livro_id }}</p>
+    <p><strong>Série:</strong> {{ livro.livro_serie }}</p>
+    <p><strong>Autor:</strong> {{ livro.livro_autor }}</p>
+    <p><strong>Gênero:</strong> {{ livro.livro_genero }}</p>
+    <p><strong>Sinopse:</strong> {{ livro.livro_sinopse }}</p>
+
+  </div>
+  <a href='/listagem/'>Voltar à lista de livros</a>
+</div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div>
+    <form method="POST">
+        {% csrf_token %}
+        {{formulario.as_p}}
+        <input type="submit" value="Adicionar livro"/>
+    </form>
+    <a href="/listagem/">Voltar</a>
+</div>
+
+{% endblock content %}
