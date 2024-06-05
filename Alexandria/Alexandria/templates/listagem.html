@@ -39,21 +39,13 @@
 
   <div>
 
-    <h3>Filtrar livros</h3>
+    <h3>Filtro de livros</h3>
     <hr>
 
-    <h4>Autores</h4>
-    <hr>
-
-    <div>
-      <a href='{% url "Listagem" %}'><h5>Todos</h5></a>
-    </div>
-
-    {% for autor in autores %}
-    <div>
-      <a href='{% url "Listagem" %}?q={{autor.autor_nome}}'><h5>{{autor.autor_nome}}</h5></a>
-    </div>
-    {% endfor %}
+    <form method="get">
+      {{formularioFiltro.as_p}}
+      <button type="submit">Filtrar</button>
+    </form>
 
   </div>
 

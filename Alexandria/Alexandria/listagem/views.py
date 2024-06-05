@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from listagem.models import Livro, Autor
-from listagem.forms import LivroFormulario
+from listagem.models import Livro
+from listagem.forms import LivroFormulario, LivroFiltroFormulario
 
 '''
 get_object_or_404 é uma função utilitária fornecida pelo Django. 
@@ -22,12 +22,23 @@ def menu(request):
     return render(request, 'menu.html')
 
 def listar_livros(request): #função, parâmetro request;
+    formularioFiltro = LivroFiltroFormulario(request.GET or None)
+
     livros = Livro.objects.all()
-    autores = Autor.objects.all()
 
-    context = {"livros":livros , "autores":autores}
+    if formularioFiltro.is_valid():
+        if formularioFiltro.cleaned_data['livro_autor']:
+            livros = livros.filter(livro_autor=formularioFiltro.cleaned_data['livro_autor'])
+        if formularioFiltro.cleaned_data['livro_serie']:
+            livros = livros.filter(livro_serie__icontains=formularioFiltro.cleaned_data['livro_serie'])
+        if formularioFiltro.cleaned_data['livro_genero']:
+            livros = livros.filter(livro_genero__icontains=formularioFiltro.cleaned_data['livro_genero'])
+        if formularioFiltro.cleaned_data['livro_nome']:
+            return redirect('Informações do Livro', pk=livros.get(livro_nome__icontains=formularioFiltro.cleaned_data['livro_nome']).pk)
 
-    return render(request, 'listagem.html',context) #"livros" = nome pelo qual a variável livros será acessada no template
+    context = {"livros":livros, "formularioFiltro":formularioFiltro}
+
+    return render(request, 'listagem.html', context) #"livros" = nome pelo qual a variável livros será acessada no template
 
 def livro_info(request, pk): #pk: abreviação de primary key.
     livro = get_object_or_404(Livro, livro_id=pk) #acesso cujo id seja igual a chave primária passada
