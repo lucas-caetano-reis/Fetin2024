@@ -2,8 +2,20 @@
 
 {% block content  %}
 
-<h1>Esta é a tela de login.</h1>
-<h2><a href='/cadastro/'>Não possui uma conta? Faça seu cadastro de forma rápida, fácil e gratuita.</a></h2>
-<h2><a href='/menu/'>Fazer login.</a></h2>
+<div style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15);">
+    
+    <h1 style="color:rgb(110, 7, 55);">Esta é a tela de login.</h1>
+
+</div>
+<a href='/cadastro/'>
+
+    <button style="font-size: 40px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Cadastre-se de graça!</button>
+
+</a>
+<a href='/menu/'>
+
+    <button style="font-size: 40px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Fazer Login</button>
+
+</a>
 
 {% endblock content %}

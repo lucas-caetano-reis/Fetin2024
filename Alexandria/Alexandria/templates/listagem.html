@@ -14,7 +14,9 @@
 
   <div>
 
-    <a href="/adicionar-livro/">Adicionar um novo livro à lista</a>
+    <a href="/adicionar-livro/" style="position: relative;">
+      <button style="font-size: 15px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px;">Adicionar um novo livro</button>
+    </a>
 
     <div class="lista">
 
@@ -22,10 +24,19 @@
 
       <div class="livros-dados-opcoes">
 
-        <h3><a href='/livro/{{livro.livro_id}}'>ID: {{ livro.livro_id }} -- Nome: {{livro.livro_nome}} -- Autor: {{livro.livro_autor}}</a><br> <!-- mostra a id e nome dos livros já cadastrados --></h3>
-        <a href="/atualizar-livro/{{livro.livro_id}}">Editar</a>
-        <a href="/remover-livro/{{livro.livro_id}}">Remover</a>
-        <hr>
+        <h3><a href='/livro/{{livro.livro_id}}' style="color: goldenrod;">
+          ID: {{ livro.livro_id }} -- Nome: {{livro.livro_nome}} -- Autor: {{livro.livro_autor}}
+        </a><br> <!-- mostra a id e nome dos livros já cadastrados --></h3>
+        
+        <a href="/atualizar-livro/{{livro.livro_id}}"><button style="font-size: 15px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px;">Editar</button>
+          
+        </a>
+        
+        <a href="/remover-livro/{{livro.livro_id}}">
+          <button style="font-size: 15px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px;">Remover</button>
+        </a>
+        
+        <div style="height: 2px; background-color: goldenrod; margin-top: 7px;"></div>
 
       </div>
   
@@ -33,19 +44,24 @@
 
     </div>
 
-    <h2><a href='/'>Sair da Alexandria.</a></h2>
+    <h2><a href='/' style="color: goldenrod;">Sair da Alexandria.</a></h2>
 
   </div>
 
-  <div>
+  <div style="border: solid;border-color: rgb(248, 184, 20); background-color: goldenrod;">
 
-    <h3>Filtro de livros</h3>
-    <hr>
+    <div style="height: max-content; background-color:  rgb(139, 104, 15); border: solid; border-color: rgb(139, 104, 15);">
+      
+      <h3 style=" color: rgb(252, 206, 0);">Filtro e pesquisa de livros</h3>
+    
+      <div style="height: 5px;background-color: goldenrod; position: relative;"></div>
 
     <form method="get">
       {{formularioFiltro.as_p}}
-      <button type="submit">Filtrar</button>
+      <button type="submit">Confirmar</button>
     </form>
+  
+    </div>
 
   </div>
 

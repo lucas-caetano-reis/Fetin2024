@@ -2,13 +2,19 @@
 
 {% block content %}
 
-<div>
+<div  style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15); height: 370px;">
     <form method="POST">
         {% csrf_token %}
         {{formulario.as_p}}
         <input type="submit" value="Confirmar"/>
     </form>
-    <a href="/listagem/">Voltar</a>
+    
 </div>
+
+<a href="/listagem/">
+        
+    <button style="font-size: 15px;background-color:goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Voltar</button> 
+
+</a>
 
 {% endblock content %}

@@ -1,8 +1,21 @@
 {% extends 'main.html' %}
 {% block content  %}
 
-<h1>Tela de cadastro.</h1>
-<h2><a href='/menu/'>Cadastrar sua conta.</a></h2>
-<h2><a href='/'>Já possui uma conta? Faça o login.</a></h2>
+<div style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15);">
+    
+    <h1 style="color:rgb(110, 7, 55) ;">Tela de cadastro.</h1>
+
+</div>
+<a href='/menu/'>
+    
+    <button style="font-size: 40px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Cadastrar sua conta</button>
+    
+
+</a>
+<a href='/'>
+    
+    <button style="font-size:40px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Já possui uma conta? Faça o Login!</button>
+
+</a>
 
 {% endblock content %}
