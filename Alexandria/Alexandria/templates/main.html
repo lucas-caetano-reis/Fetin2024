@@ -20,6 +20,15 @@
 
     }
 
+    .botao{
+        font-size: 15px;
+        background-color: goldenrod;
+        color: rgb(110, 7, 55);
+        border-radius: 5px;
+        position:relative;
+        top: 7px;
+    }
+
 
     </style>
     
@@ -27,6 +36,14 @@
 
 <body>
     {% include 'logo.html' %} <!--inclui a logo neste template-->
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li></li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
     {% block content %} <!-- abre bloco -->
 

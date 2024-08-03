@@ -13,10 +13,18 @@
 
 </a>
 
-<a href='/'>
+{% if request.user.is_authenticated %}
+<a href="{% url 'Logout' %}">
     
     <button style="font-size: 40px;background-color:goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Sair da Alexandria</button> 
 
 </a>
+{% else %}
+<a href="{% url 'Logout' %}">
+    
+    <button style="font-size: 40px;background-color:goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Ei! Faça o login primeiro.</button> 
+
+</a>
+{% endif %}
 
 {% endblock content %}

@@ -1,4 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from listagem.models import Livro
 from listagem.forms import LivroFormulario, LivroFiltroFormulario
 
@@ -12,8 +15,30 @@ que é convertida em uma resposta HTTP 404 (Página Não Encontrada).
 '''
 
 # Create your views here.
-def login(request):
-    return render(request, 'login.html') #parâmetro request + nome do template
+def loginPage(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username') #post usuário
+        password = request.POST.get('password') #post senha
+
+        try:
+            user = User.objects.get(username=username) #verifica se o usuário existe
+        except:
+            messages.error(request, 'Usuário não existente.') #mostra uma flash message
+
+        user = authenticate(request, username=username, password=password) #autentica o nome de usuário e a senha
+
+        if user is not None: #se o usuário existe
+            login(request, user) #cria um sessão no banco de dados
+            return redirect('menu') #manda o usuário para o menu
+        else:
+            messages.error(request, 'Usuário ou senha incorretos.') #mostra uma flash message
+    context = {}
+    return render(request, 'login.html', context) #parâmetro request + nome do template
+
+def logoutUser(request):
+    logout(request) #desloga o usuário
+    return redirect('Login') #manda o usuário para a tela de login
 
 def cadastro(request):
     return render(request, 'cadastro.html')
@@ -33,7 +58,7 @@ def listar_livros(request): #função, parâmetro request;
             livros = livros.filter(livro_serie__icontains=formularioFiltro.cleaned_data['livro_serie'])
         if formularioFiltro.cleaned_data['livro_genero']:
             livros = livros.filter(livro_genero__icontains=formularioFiltro.cleaned_data['livro_genero'])
-        if formularioFiltro.cleaned_data['livro_nome']:
+        if formularioFiltro.cleaned_data['livro_nome']: #Isto é uma pesquisa, não um filtro
             return redirect('Informações do Livro', pk=livros.get(livro_nome__icontains=formularioFiltro.cleaned_data['livro_nome']).pk)
 
     context = {"livros":livros, "formularioFiltro":formularioFiltro}

@@ -44,7 +44,11 @@
 
     </div>
 
-    <h2><a href='/' style="color: goldenrod;">Sair da Alexandria.</a></h2>
+    {% if request.user.is_authenticated %}
+    <h2><a href="{% url 'Logout' %}" style="color: goldenrod;">Sair da Alexandria.</a></h2>
+    {% else %}
+    <h2><a href="{% url 'Logout' %}" style="color: goldenrod;">Ei! Faça o login primeiro.</a></h2>
+    {% endif %}
 
   </div>
 

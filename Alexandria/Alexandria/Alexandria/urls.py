@@ -17,12 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 #from django.http import HttpResponse -----> tirar o # se necessário HttpResponse
-from listagem.views import login, cadastro, menu, listar_livros, livro_info, adicionarLivro, atualizarLivro, removerLivro
+from listagem.views import loginPage, logoutUser,cadastro, menu, listar_livros, livro_info, adicionarLivro, atualizarLivro, removerLivro
 
 urlpatterns = [
     path('admin/', admin.site.urls, name="Administração"), #leva ao site da administração
-    path('', login, name="Login"), #quando o usuário abrir o site, ele será levado à tela de login
+
+    path('', loginPage, name="Login"), #quando o usuário abrir o site, ele será levado à tela de login
+    path('logout/', logoutUser, name="Logout"), #quando o usuário abrir o site, ele será levado à tela de login
+    
     path('cadastro/', cadastro, name="Cadastro"), #leva o usuário à tela de cadastro
+    
     path('menu/', menu, name="menu"), #leva o usuário ao menu do site
 
     path('listagem/', listar_livros, name="Listagem"), #leva o usuário à tela de listagem de livros
