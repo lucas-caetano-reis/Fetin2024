@@ -6,16 +6,30 @@
     <h1 style="color:rgb(110, 7, 55) ;">Tela de cadastro.</h1>
 
 </div>
+
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <input type="submit" value="Cadastrar" />
+    </form>
+</div>
+
+<a href='/'>
+    
+    <button style="font-size:40px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Já possui uma conta? Faça o Login!</button>
+
+</a>
+
+<!--
 <a href='/menu/'>
     
     <button style="font-size: 40px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Cadastrar sua conta</button>
     
 
 </a>
-<a href='/'>
-    
-    <button style="font-size:40px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Já possui uma conta? Faça o Login!</button>
-
-</a>
+-->
 
 {% endblock content %}

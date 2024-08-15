@@ -2,6 +2,20 @@
 
 {% block content  %}
 
+{% if request.user.is_authenticated %}
+<div style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15);">
+    
+    <h1 style="color:rgb(110, 7, 55);">Olá {{request.user}}.</h1>
+
+</div>
+{% else %}
+<div style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15);">
+    
+    <h1 style="color:rgb(110, 7, 55);">Você não está autenticado.</h1>
+
+</div>
+{% endif %}
+
 <div style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15);">
     
     <h1 style="color:rgb(110, 7, 55);">Este é o menu. Por enquanto não há nada aqui.</h1>

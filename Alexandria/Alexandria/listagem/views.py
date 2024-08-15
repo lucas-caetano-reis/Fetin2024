@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from listagem.models import Livro
 from listagem.forms import LivroFormulario, LivroFiltroFormulario
 
@@ -17,8 +19,11 @@ que é convertida em uma resposta HTTP 404 (Página Não Encontrada).
 # Create your views here.
 def loginPage(request):
 
+    if request.user.is_authenticated:
+        return redirect('menu')
+
     if request.method == 'POST':
-        username = request.POST.get('username') #post usuário
+        username = request.POST.get('username').lower() #post usuário e deixa ele em minúsculo
         password = request.POST.get('password') #post senha
 
         try:
@@ -40,8 +45,24 @@ def logoutUser(request):
     logout(request) #desloga o usuário
     return redirect('Login') #manda o usuário para a tela de login
 
-def cadastro(request):
-    return render(request, 'cadastro.html')
+def cadastroPage(request):
+    if request.user.is_authenticated:
+        return redirect('menu')
+    
+    form = UserCreationForm()
+    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('menu')
+        else:
+            messages.error(request,'Um erro ocorreu durante o cadastro')
+    
+    return render(request, 'cadastro.html', {'form':form})
 
 def menu(request):
     return render(request, 'menu.html')
@@ -69,6 +90,7 @@ def livro_info(request, pk): #pk: abreviação de primary key.
     livro = get_object_or_404(Livro, livro_id=pk) #acesso cujo id seja igual a chave primária passada
     return render(request, 'livro_info.html', {'livro': livro})
 
+@login_required(login_url='Login') #caso o usuário não esteja autenticado, ele será redirecionado para a tela de login
 def adicionarLivro(request):
     if request.method == 'POST':
         formulario = LivroFormulario(request.POST)
@@ -79,6 +101,7 @@ def adicionarLivro(request):
         formulario = LivroFormulario()
     return render(request, 'livro_form.html', {'formulario':formulario})
 
+@login_required(login_url='Login') #caso o usuário não esteja autenticado, ele será redirecionado para a tela de login
 def atualizarLivro(request, pk):
     livro = Livro.objects.get(livro_id=pk)
 
@@ -91,6 +114,7 @@ def atualizarLivro(request, pk):
 
     return render(request, 'livro_form.html', {'formulario':formulario})
 
+@login_required(login_url='Login') #caso o usuário não esteja autenticado, ele será redirecionado para a tela de login
 def removerLivro(request, pk):
     livro = Livro.objects.get(livro_id=pk)
 
