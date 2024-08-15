@@ -76,9 +76,9 @@ def listar_livros(request): #função, parâmetro request;
         if formularioFiltro.cleaned_data['livro_autor']:
             livros = livros.filter(livro_autor=formularioFiltro.cleaned_data['livro_autor'])
         if formularioFiltro.cleaned_data['livro_serie']:
-            livros = livros.filter(livro_serie__icontains=formularioFiltro.cleaned_data['livro_serie'])
+            livros = livros.filter(livro_serie=formularioFiltro.cleaned_data['livro_serie'])
         if formularioFiltro.cleaned_data['livro_genero']:
-            livros = livros.filter(livro_genero__icontains=formularioFiltro.cleaned_data['livro_genero'])
+            livros = livros.filter(livro_genero=formularioFiltro.cleaned_data['livro_genero'])
         if formularioFiltro.cleaned_data['livro_nome']: #Isto é uma pesquisa, não um filtro
             return redirect('Informações do Livro', pk=livros.get(livro_nome__icontains=formularioFiltro.cleaned_data['livro_nome']).pk)
 
