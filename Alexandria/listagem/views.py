@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 from listagem.models import Livro, RelacionamentoLivroUsuario
 from listagem.forms import LivroFormulario, LivroFiltroFormulario
 
@@ -66,7 +67,32 @@ def cadastroPage(request):
 
 def menu(request):
     listaLeitura = RelacionamentoLivroUsuario.objects.filter(usuario=request.user, lista_de_leitura=True).select_related('livro')
-    context = {'listaLeitura' : listaLeitura}
+
+    # Filtra os livros marcados como "gostei" ou com nota >= 4
+    livros_preferidos = RelacionamentoLivroUsuario.objects.filter(
+        usuario=request.user
+    ).filter(
+        Q(gostou=True) | Q(nota__gte=4)
+    ).select_related('livro')
+
+    # Obtêm IDs dos livros que o usuário já leu ou avaliou
+    livros_lidos_ids = RelacionamentoLivroUsuario.objects.filter(usuario=request.user).values_list('livro_id', flat=True)
+
+    # Listas de autores, gêneros e séries dos livros preferidos
+    autores_preferidos = livros_preferidos.values_list('livro__livro_autor', flat=True)
+    generos_preferidos = livros_preferidos.values_list('livro__livro_genero', flat=True)
+    series_preferidas = livros_preferidos.values_list('livro__livro_serie', flat=True)
+
+    # Obtêm livros recomendados
+    livros_recomendados = Livro.objects.filter(
+        Q(livro_autor__in=autores_preferidos) |
+        Q(livro_genero__in=generos_preferidos) |
+        Q(livro_serie__in=series_preferidas)
+    ).distinct()[:5]  # Limite de 5 livros
+
+    #.exclude(livro_id__in=livros_lidos_ids)
+
+    context = {'listaLeitura' : listaLeitura , 'livrosRecomendados' : livros_recomendados , 'livrosLidos' : livros_lidos_ids}
     return render(request, 'listagem/menu.html', context)
 
 def listar_livros(request): #função, parâmetro request;
@@ -128,7 +154,9 @@ def removerLivro(request, pk):
 @login_required(login_url='Login')
 def relacionamenteLivroUsuario(request, pk):
     livro = get_object_or_404(Livro, livro_id = pk)
-    relacionamento, created = RelacionamentoLivroUsuario.objects.get_or_create(usuario = request.user, livro = livro) #verifica se o usuário e o livro estão corretos
+    relacionamento, created = RelacionamentoLivroUsuario.objects.get_or_create(
+        #por tudo o que é mais sagrado, jamais remova o created, pois os relacionamentos vão bugar
+        usuario = request.user, livro = livro) #verifica se o usuário e o livro estão corretos
 
     if request.method == 'POST':
         gostou = request.POST.get('gostou') == 'on' 
@@ -137,13 +165,19 @@ def relacionamenteLivroUsuario(request, pk):
 
         relacionamento.gostou = gostou
         relacionamento.lista_de_leitura = lista_de_leitura
-        relacionamento.nota = int(nota) if nota else None
+        
+        # Atualiza apenas se a nota foi fornecida
+        if nota != '':
+            relacionamento.nota = int(nota)
+        elif nota == '':  # Se o campo de nota estiver vazio, não altera a nota existente
+            relacionamento.nota = None
+    
         relacionamento.save()
 
-        return redirect('Informações do Livro', pk = pk)
+        return redirect('Menu')
     
     # Gerar a lista de opções de notas (0 a 5)
-    notas = range(6)
+    notas = range(0,6)
     
     context = {'livro' : livro , 'relacionamento' : relacionamento, 'notas' : notas}
 

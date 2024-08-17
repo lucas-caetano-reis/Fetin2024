@@ -29,6 +29,18 @@
     </div>
 </div>
 
+<div>
+    <div style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15);">
+        <h1 style="color:rgb(110, 7, 55);">Recomendações para você:</h1>
+    <ul>
+        {% for livro in livrosRecomendados %}
+            <li><a href="{% url 'Informações do Livro' pk=livro.livro_id %}" style="color: rgb(110, 7, 55);">
+                {{ livro.livro_nome }}</a> - {{ livro.livro_autor }}</li>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
+
 <a href="{% url 'Listagem' %}">
    
     <button style="font-size: 40px;background-color: goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Tela de Listagem</button> 
