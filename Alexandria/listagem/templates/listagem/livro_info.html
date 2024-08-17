@@ -1,0 +1,30 @@
+<!-- template para mostrar as informações de um livro cadastrado no banco de dados-->
+{% extends 'main_com_navbar.html' %}
+
+{% block content  %}
+
+<div style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15);">
+
+  <div>
+    <h1 style="color: rgb(110, 7, 55);">{{ livro.livro_nome }}</h1>
+    <p style="color: rgb(110, 7, 55);"><strong>ID:</strong> {{ livro.livro_id }}</p>
+    <p style="color: rgb(110, 7, 55);"><strong>Série:</strong> {{ livro.livro_serie }}</p>
+    <p style="color: rgb(110, 7, 55);"><strong>Autor:</strong> {{ livro.livro_autor }}</p>
+    <p style="color: rgb(110, 7, 55);"><strong>Gênero:</strong> {{ livro.livro_genero }}</p>
+    <p style="color: rgb(110, 7, 55);"><strong>Sinopse:</strong> {{ livro.livro_sinopse }}</p>
+
+  </div>
+  
+</div>
+
+<a href='/livro/{{livro.livro_id}}/relacionamento'>
+  <button style="font-size: 15px;background-color:goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Atualizar Relacionamento</button> 
+</a>
+<a href="{% url 'Listagem' %}">
+  
+  <button style="font-size: 15px;background-color:goldenrod; color: rgb(110, 7, 55); border-radius: 5px; position: relative; top: 7px;">Voltar a lista de livros</button> 
+
+
+</a>
+
+{% endblock content %}

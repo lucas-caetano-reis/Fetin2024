@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <div style="border: solid;background-color:goldenrod;border-color: rgb(139, 104, 15);">
+        
+        <p style="color: rgb(110, 7, 55);">Tem certeza que você deseja remover "{{obj}}" da lista?</p>
+    
+    </div>
+
+    
+    <a href="{% url 'Listagem' %}">
+        <button type = "button" class="botao">Voltar</button>
+    </a>
+
+    <input type="submit" value="Confirmar" class="botao"/>
+</form>
+
+{% endblock content %}

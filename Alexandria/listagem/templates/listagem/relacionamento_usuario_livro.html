@@ -1,0 +1,36 @@
+{% extends 'main_com_navbar.html' %}
+
+{% block content  %}
+
+<div>
+    <div>
+        <title>Atualizar Relacionamento</title>
+    </div>
+    <div>
+        <h1>{{ livro.livro_nome }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label>
+                <input type="checkbox" name="gostou" {% if relacionamento.gostou %}checked{% endif %}> Gostei
+            </label>
+            <br>
+            <label>
+                <input type="checkbox" name="lista_de_leitura" {% if relacionamento.lista_de_leitura %}checked{% endif %}> Adicionar à lista de leitura
+            </label>
+            <br>
+            <label>
+                Nota: 
+                <select name="nota">
+                    <option value="">Sem nota</option>
+                    {% for i in notas %}
+                        <option value="{{ i }}" {% if relacionamento.nota == i %}selected{% endif %}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <br>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
