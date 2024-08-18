@@ -7,12 +7,13 @@
         <title>Atualizar Relacionamento</title>
     </div>
     <div>
-        <h1>{{ livro.livro_nome }}</h1>
+        <h1><a href="{% url 'Informações do Livro' pk=livro.livro_id %}" style="color: goldenrod;">
+            {{ livro.livro_nome }}</a></h1>
         <form method="post">
             {% csrf_token %}
             <div>
                 <label>
-                    <input type="checkbox" name="gostou" {% if relacionamento.gostou %}checked{% endif %}> Gostei
+                    <input type="checkbox" name="lido" {% if relacionamento.lido %}checked{% endif %}> Li
                 </label>
             </div>
             <div>

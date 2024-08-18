@@ -68,15 +68,17 @@ def cadastroPage(request):
 def menu(request):
     listaLeitura = RelacionamentoLivroUsuario.objects.filter(usuario=request.user, lista_de_leitura=True).select_related('livro')
 
-    # Filtra os livros marcados como "gostei" ou com nota >= 4
+    # Filtra os livros marcados como "li" ou com nota >= 4
     livros_preferidos = RelacionamentoLivroUsuario.objects.filter(
         usuario=request.user
     ).filter(
-        Q(gostou=True) | Q(nota__gte=4)
+        Q(lido=True) & Q(nota__gte=4)
     ).select_related('livro')
 
     # Obtêm IDs dos livros que o usuário já leu ou avaliou
-    livros_lidos_ids = RelacionamentoLivroUsuario.objects.filter(usuario=request.user).values_list('livro_id', flat=True)
+    livros_lidos_ids = RelacionamentoLivroUsuario.objects.filter(
+        usuario=request.user, lido = True
+        ).values_list('livro_id', flat=True)
 
     # Listas de autores, gêneros e séries dos livros preferidos
     autores_preferidos = livros_preferidos.values_list('livro__livro_autor', flat=True)
@@ -88,9 +90,7 @@ def menu(request):
         Q(livro_autor__in=autores_preferidos) |
         Q(livro_genero__in=generos_preferidos) |
         Q(livro_serie__in=series_preferidas)
-    ).distinct()[:5]  # Limite de 5 livros
-
-    #.exclude(livro_id__in=livros_lidos_ids)
+    ).exclude(livro_id__in=livros_lidos_ids).distinct().order_by('?')[:5]  # Limite de 5 livros
 
     context = {'listaLeitura' : listaLeitura , 'livrosRecomendados' : livros_recomendados , 'livrosLidos' : livros_lidos_ids}
     return render(request, 'listagem/menu.html', context)
@@ -159,11 +159,13 @@ def relacionamenteLivroUsuario(request, pk):
         usuario = request.user, livro = livro) #verifica se o usuário e o livro estão corretos
 
     if request.method == 'POST':
-        gostou = request.POST.get('gostou') == 'on' 
+        #gostou = request.POST.get('gostou') == 'on' 
+        lido = request.POST.get('lido') == 'on'
         lista_de_leitura = request.POST.get('lista_de_leitura') == 'on'
         nota = request.POST.get('nota')
 
-        relacionamento.gostou = gostou
+        #relacionamento.gostou = gostou
+        relacionamento.lido = lido
         relacionamento.lista_de_leitura = lista_de_leitura
         
         # Atualiza apenas se a nota foi fornecida
@@ -174,7 +176,7 @@ def relacionamenteLivroUsuario(request, pk):
     
         relacionamento.save()
 
-        return redirect('Menu')
+        return redirect('Listagem')
     
     # Gerar a lista de opções de notas (0 a 5)
     notas = range(0,6)

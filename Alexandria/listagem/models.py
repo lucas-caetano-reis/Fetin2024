@@ -50,9 +50,10 @@ class Livro(models.Model): #tabela dos livros
 class RelacionamentoLivroUsuario(models.Model):
     usuario = models.ForeignKey(User, models.CASCADE, related_name='usuario_relacionamento')
     livro = models.ForeignKey(Livro, models.CASCADE, related_name='livro_relacionamento')
-    gostou = models.BooleanField(default = False)
+    #gostou = models.BooleanField(default = False)
     lista_de_leitura = models.BooleanField(default = False)
     nota = models.IntegerField(null = True , blank = True)
+    lido = models.BooleanField(default = False)
 
     def __str__(self):
         return f'{self.usuario.username} - {self.livro.livro_nome}'
