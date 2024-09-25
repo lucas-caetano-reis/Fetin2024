@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% block content  %}
+
+<div style="border: solid;background-color:#8b597b;border-color: #8b597b;">
+    
+    <div style="background-color: #ffdec7; border: solid;border-color: #ffdec7; border-radius: 10px;">
+    <h1 style="color: #493129 ; text-align: center;">Tela de cadastro.</h1>
+
+
+
+
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <h1 style="text-align: center;" ><input type="submit" value="Cadastrar" style="border: none; border-radius: 10px; background-color: #a87598;color: #493129;  font-size: 40px; font-family: 'Times New Roman', Times, serif; font-weight: bold;"/></h1>
+    </form>
+
+    </div>
+
+</div>
+
+<a href="{% url 'Login' %}">
+    
+    <h1 style="text-align: center;"><button style="font-size:40px;background-color: #ffdec7; color:  #493129; border-radius: 10px;border: none; position: relative; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Já possui uma conta? Faça o Login!</button></h1>
+
+</a>
+
+<!--
+<a href='/menu/'>
+    
+    <button style="font-size: 40px;background-color: #ffdec7; color:  #493129; border-radius: 5px; position: relative; top: 7px;">Cadastrar sua conta</button>
+    
+
+</a>
+-->
+
+{% endblock content %}

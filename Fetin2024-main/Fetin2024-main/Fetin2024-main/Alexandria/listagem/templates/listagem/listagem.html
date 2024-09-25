@@ -1,0 +1,74 @@
+<!-- template para a listagem de todos os livros cadastrados no banco de dados-->
+{% extends 'main_com_navbar.html' %}
+
+{% block content  %}
+
+<style>
+  .lista-container{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+  }
+</style>
+
+<div class="lista-container">
+
+  <div  style="background-color: #da8484; border: none; border-radius: 10px;">
+  <div style="text-align: center;">
+    
+    <a href="{% url 'Adicionar-Livro' %}" style="position: relative;">
+      <button style="font-size: 20px;background-color: #ffedc7; color: #493129; border-radius: 10px; border: none; margin-top: 5px; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Adicionar um novo livro</button>
+    </a>
+
+    <div class="lista" style="margin-top: -5px;">
+
+      {% for livro in livros %}  <!-- tag de for ; percorre todos os livros já cadastrados-->
+
+      <div class="livros-dados-opcoes" style="background-color: #ffedc7; border: none; border-color: #ffedc7; border-radius: 10px; border-width: 5px;">
+                <h3><a href='/livro/{{livro.livro_id}}'><button style="font-size: 40px;background: none; color: #493129; border-style: none; font-family: 'Times New Roman', Times, serif; font-weight: bold;">
+           {{livro.livro_nome}} 
+        </button> </a></h3> <!-- mostra o nome dos livros já cadastrados -->
+        
+        <a href="/atualizar-livro/{{livro.livro_id}}">
+          <button style="font-size: 20px;background-color: #da8484; color: #493129; border-style: none; border-radius: 10px; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Editar</button>
+        </a>
+        
+        <a href="/remover-livro/{{livro.livro_id}}">
+          <button style="font-size: 20px;background-color: #da8484; color: #493129; border-style: none; border-radius: 10px; margin-bottom: 10px; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Remover</button>
+        </a>
+        
+
+      </div>
+  
+      {% endfor %} <!-- fecha o for -->
+
+    </div>
+
+    {% if request.user.is_authenticated %}
+    <h2><a href="{% url 'Logout' %}" ><button style=" color: #493129; background-color: #ffedc7;font-size: 20px; border: none; border-radius: 10px; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Sair da Alexandria.</button></a></h2>
+    {% else %}
+    <h2><a href="{% url 'Logout' %}"><button style=" color: #493129; background-color: #ffedc7;font-size: 20px; border: none; border-radius: 10px; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Ei! Faça o login primeiro.</button></a></h2>
+    {% endif %}
+
+  </div>
+  </div>
+
+  <div style="border: solid;border-color: #8b597b; background-color: #8b597b; font-weight: bold;">
+
+    <div style="height: max-content; background-color: #a87598; border: solid; border: #a87598 solid;border-radius: 10px; position: sticky; top: 5px;">
+      
+      <h3 style=" color: #493129; text-align: center;">Filtro e pesquisa de livros</h3>
+    
+      <div style="height: 5px;background-color: #8b597b; position: relative;"></div>
+
+    <form method="get" style="color: #493129;">
+      {{formularioFiltro.as_p}}
+      <div style="text-align: center;"><button type="submit" style=" color: #493129; background-color: #ffedc7; border: none; border-radius: 10px; font-size: 20px; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Confirmar</button></div>
+    </form>
+  
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock content %}

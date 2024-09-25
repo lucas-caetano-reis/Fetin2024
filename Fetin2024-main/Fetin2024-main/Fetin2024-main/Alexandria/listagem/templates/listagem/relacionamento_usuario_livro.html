@@ -1,0 +1,42 @@
+{% extends 'main_com_navbar.html' %}
+
+{% block content  %}
+
+<div>
+    <div>
+        <title>Atualizar Relacionamento</title>
+    </div>
+    <div style="background-color: #ffdec7;border: solid; border-color: #ffdec7;border-radius: 10px; text-align: center; color:#493129 ;">
+        <h1><a href="{% url 'Informações do Livro' pk=livro.livro_id %}"><button style="font-size: 40px;background: none; border-style: none; font-family: 'Times New Roman', Times, serif; font-weight: bold; color: #493129;">
+            {{ livro.livro_nome }}</button></a></h1>
+        <form method="post">
+            {% csrf_token %}
+            <div style="font-size: 20px; font-weight: bold;">
+                <label>
+                    <input type="checkbox" name="lido" {% if relacionamento.lido %}checked{% endif %}> Livro lido
+                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="lista_de_leitura" {% if relacionamento.lista_de_leitura %}checked{% endif %}> Adicionar à lista de leitura
+                </label>
+                <br>
+                <label>
+                    Nota: 
+                    <select name="nota">
+                        <option value="">Sem nota</option>
+                        {% for i in notas %}
+                            <option value="{{ i }}" {% if relacionamento.nota == i %}selected{% endif %}>{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+            <br>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+            <input type="submit" value="Salvar" class="botao" style="border: none;border-radius: 10px; background-color: #ffdec7; color:#493129;font-size: 40px; font-family: 'Times New Roman', Times, serif; font-weight: bold;"/>
+            </div>
+
+        </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,32 @@
+<!-- template para mostrar as informações de um livro cadastrado no banco de dados-->
+{% extends 'main_com_navbar.html' %}
+
+{% block content  %}
+
+<div style="border: solid;background-color: #8b597b;border-color: #8b597b;">
+
+  <div style="background-color: #ffdec7; border: solid; border-radius: 10px; border-color: #ffdec7;">
+    <h1 style="color:#493129; text-align: center;">{{ livro.livro_nome }}</h1>
+    <p style="color: #493129;"><strong>ID:</strong> {{ livro.livro_id }}</p>
+    <p style="color: #493129;"><strong>Série:</strong> {{ livro.livro_serie }}</p>
+    <p style="color: #493129;"><strong>Autor:</strong> {{ livro.livro_autor }}</p>
+    <p style="color: #493129;"><strong>Gênero:</strong> {{ livro.livro_genero }}</p>
+    <p style="color: #493129;"><strong>Sinopse:</strong> {{ livro.livro_sinopse }}</p>
+
+  </div>
+  
+</div>
+
+<div style="text-align: center;">
+<a href='/livro/{{livro.livro_id}}/relacionamento'>
+  <button style="font-size: 40px;background-color:#ffdec7; color: #493129; border-radius: 5px; position: relative; top: 7px; border: none; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Atualizar Relacionamento</button> 
+</a>
+<a href="{% url 'Listagem' %}">
+  
+  <button style="font-size: 40px;background-color:#ffdec7; color: #493129; border-radius: 5px; position: relative; top: 7px; border: none; font-family: 'Times New Roman', Times, serif; font-weight: bold;">Voltar a lista de livros</button> 
+
+
+</a>
+</div>
+
+{% endblock content %}
